@@ -2,6 +2,7 @@ package com.resurrect.service;
 
 import java.time.LocalDateTime;
 
+import com.resurrect.daofactory.TraineeDaoFactory;
 import com.resurrect.dto.Trainee;
 import com.resurrect.persistence.ITraineeDao;
 
@@ -11,7 +12,8 @@ public class TraineeServiceImpl implements ITraineeService {
 
 	@Override
 	public String addTrainee(String tname, String temail, String course, LocalDateTime enrollmentDate) {
-		return null;
+		trnDao = TraineeDaoFactory.getTraineeDaoObject();
+		return trnDao.addTrainee(tname, temail, course, enrollmentDate);
 	}
 
 	@Override
