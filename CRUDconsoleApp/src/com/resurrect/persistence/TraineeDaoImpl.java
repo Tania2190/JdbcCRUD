@@ -93,7 +93,29 @@ public class TraineeDaoImpl implements ITraineeDao{
 
 	@Override
 	public String updateTrainee(Trainee trainee) {
-		return null;
+		String updateQuery = "update traineereg set tname=?,temail=?,tcourse=?,tenrolldate=? where tid=?";
+		try {
+			 connection = JdbcUtil.getJdbcConnection();
+			 
+			if (connection != null) {
+				pstmt = connection.prepareStatement(updateQuery);
+			}
+			if (pstmt != null) {
+				pstmt.setString(1, trainee.getTname());
+				pstmt.setString(2, trainee.getTemail());
+				pstmt.setString(3, trainee.getTcourse());
+				pstmt.setTimestamp(4, Timestamp.valueOf(trainee.getEnrollmentDate()));
+				pstmt.setInt(5, trainee.getTid());
+				
+				int update = pstmt.executeUpdate();
+				if (update == 1) {
+					return "success";
+				}
+			}
+		} catch(SQLException | IOException e) {
+			e.printStackTrace();
+		}
+		return "failure";
 	}
 
 	@Override

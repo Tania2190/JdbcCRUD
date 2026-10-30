@@ -24,7 +24,8 @@ public class TraineeServiceImpl implements ITraineeService {
 
 	@Override
 	public String updateTrainee(Trainee trainee) {
-		return null;
+		trnDao = TraineeDaoFactory.getTraineeDaoObject();
+		return trnDao.updateTrainee(trainee);
 	}
 
 	@Override
