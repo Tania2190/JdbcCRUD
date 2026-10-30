@@ -18,7 +18,8 @@ public class TraineeServiceImpl implements ITraineeService {
 
 	@Override
 	public Trainee searchTrainee(Integer tid) {
-		return null;
+		trnDao = TraineeDaoFactory.getTraineeDaoObject();
+		return trnDao.searchTrainee(tid);
 	}
 
 	@Override
@@ -28,7 +29,8 @@ public class TraineeServiceImpl implements ITraineeService {
 
 	@Override
 	public String deleteTrainee(Integer tid) {
-		return null;
+		trnDao = TraineeDaoFactory.getTraineeDaoObject();
+		return trnDao.deleteTrainee(tid);
 	}
 
 }

@@ -56,7 +56,39 @@ public class TraineeDaoImpl implements ITraineeDao{
 
 	@Override
 	public Trainee searchTrainee(Integer tid) {
-		return null;
+		Trainee trainee = null;
+		String selectQuery = "select tid, tname,temail,tcourse,tenrolldate from traineereg where tid=?";
+		try {
+			connection = JdbcUtil.getJdbcConnection();
+			
+			if (connection != null) {
+				pstmt = connection.prepareStatement(selectQuery);
+			}
+			
+			if (pstmt != null) {
+				pstmt.setInt(1, tid);
+				resultSet = pstmt.executeQuery();
+			}
+			
+			if (resultSet != null) {
+				if (resultSet.next()) {
+					trainee = new Trainee();
+					
+					trainee.setTid(resultSet.getInt(1));
+					trainee.setTname(resultSet.getString(2));
+					trainee.setTemail(resultSet.getString(3));
+					trainee.setTcourse(resultSet.getString(4));
+					trainee.setEnrollmentDate(resultSet.getTimestamp(5).toLocalDateTime());
+					
+					return trainee;
+				}
+			}
+		} catch (SQLException | IOException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return trainee;
 	}
 
 	@Override
@@ -66,7 +98,27 @@ public class TraineeDaoImpl implements ITraineeDao{
 
 	@Override
 	public String deleteTrainee(Integer tid) {
-		return null;
+		String deleteQuery = "delete from traineereg where tid=?";
+		try {
+			connection = JdbcUtil.getJdbcConnection();
+			if (connection != null) {
+				pstmt = connection.prepareStatement(deleteQuery);
+			}
+			if (pstmt != null) {
+				pstmt.setInt(1, tid);
+				
+				int update = pstmt.executeUpdate();
+				if (update == 1) {
+					return "success";
+				} else {
+					return "not found";
+				}
+			}
+		} catch (SQLException | IOException e) {
+			e.printStackTrace();
+			return "failure";
+		}
+		return "failure";
 	}
 
 }
